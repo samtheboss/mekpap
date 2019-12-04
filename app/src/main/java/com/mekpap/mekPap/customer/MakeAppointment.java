@@ -1,0 +1,288 @@
+package com.mekpap.mekPap.customer;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.mekpap.mekPap.R;
+
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
+public class MakeAppointment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+    AutoCompleteTextView carmodel, carProblem, carType;
+    private static final String tag = "MakeAppointment";
+    Button request;
+    private DatePickerDialog.OnDateSetListener onDateSetListener;
+    com.google.android.material.textfield.TextInputEditText appointMentdate, appointMentTimw;
+    private Boolean requestBol = false;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String userId;
+    String problems, getCarmodel, getCartype;
+    long startTime;
+    private static final String[] carTypes = new String[]{"Acura", "Alfa Romeo",
+            "Aston Martin", "Audi", "Bentley", "BMW", "Bugatti",
+            "Buick", "Cadillac", "Chevrolet", "Chrysler",
+            "Citroen", "Dodge", "Ferrari", "Fiat",
+            "Ford", "Geely", "General Motors", "GMC",
+            "Honda", "Hyundai", "Infiniti", "Jaguar", "Jeep", "Kia",
+            "Koenigsegg", "Lamborghini", "Land Rover", "Lexus",
+            "Maserati", "Mazda", "McLaren", "Mercedes-Benz",
+            "Mini", "Mitsubishi", "Nissan", "Pagani",
+            "Peugeot", "Porsche", "Ram", "Renault",
+            "Rolls Royce", "Saab", "Subaru", "Suzuki", "TATA Motors",
+            "Tesla", "Toyota", "Volkswagen", "Volvo",
+
+    };
+
+
+    private static final String[] carModels = new String[]{"4-runner", "Allex", "Allion", "Alphard",
+            "Aqua", "Auris", "Avensis", "Axio", "Axion", "Belta",
+            "Caldina", "Camry", "Carina", "Corolla",
+            "Crown", "Advan", "Atlas", "Bluebird", "Caravan",
+            "Cube", "Datsun", "Dualis", "Fuga", "Hardbody",
+            "Juke", "Forester", "Impreza", "Legacy",
+            "Outback", "Trezia", "WRX STI",
+            "Atenza", "Axela", "Bongo", "CX-5", "Demio", "Premacy", "Verisa",
+            "Golf", "Jetta", "Passat", "Polo", "Tiguan", "Touareg",
+            "D-MAX", "Fielder", "FJ Cruiser", "Fortuner", "Fun Cargo", "Harrier",
+            "Hiace", "Hilux", "Ipsum", "Isis", "Kluger", "Land cruiser", "Land cruiser prado",
+            "Mark II", "Mark X", "Noah", "Lafesta", "Latio", "March",
+            "Murano", "Navara", "Note", "Primera", "Patrol", "serena",
+            "Skyline", "Passo", "Platz", "Porte", "Premio", "Prius", "Probox",
+            "Ractis", "Rav4", "Rumion", "Rush", "Sienta",
+            "Spacio", "Succeed", "Surf", "Townance", "Sunny",
+            "Sylphy", "Teana", "Tiida", "Wingroad", "X-trail", "Airwave", "Civic", "CRV", "Fit",
+            "Freed", "Insight", "Odyssey", "Shuttle", "Stream", "ASX", "Canter",
+            "Colt", "Delica", "Galant", "Lancer", "Lancer Evo", "Mirage", "Outlander", "Pajero",
+            "Pajero IO", "Pajero Mini", "RVR", "Shogun",
+            "LX", "RX", "Escape", "Ranger"
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_make_appointment);
+        carmodel = findViewById(R.id.carModel);
+        carProblem = findViewById(R.id.problems);
+        carType = findViewById(R.id.carType);
+        appointMentdate = findViewById(R.id.appointmentdate);
+        appointMentTimw = findViewById(R.id.appointmentTime);
+        request = findViewById(R.id.makeRequestAppointment);
+        userId = FirebaseAuth.getInstance().getUid();
+        appointMentdate.setOnClickListener(view -> showDatePickerDialog());
+        onDateSetListener = (datePicker, year, month, day) -> {
+            month = month + 1;
+            String date = year + "/" + month + "/" + day;
+            appointMentdate.setText(date);
+
+        };
+        ArrayAdapter<String> carTypesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, carTypes);
+        ArrayAdapter<String> carModelsAdaper = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, carModels);
+        carType.setAdapter(carTypesAdapter);
+        carType.setThreshold(1);
+
+        carmodel.setAdapter(carModelsAdaper);
+        carmodel.setThreshold(1);
+        parsedataFrommap();
+
+        appointMentTimw.setOnClickListener(v -> {
+            // TODO Auto-generated method stub
+            Calendar mcurrentTime = Calendar.getInstance();
+            int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+            int minute = mcurrentTime.get(Calendar.MINUTE);
+            TimePickerDialog mTimePicker;
+            mTimePicker = new TimePickerDialog(MakeAppointment.this, (timePicker, selectedHour, selectedMinute) ->
+                    appointMentTimw.setText(selectedHour + ":" + selectedMinute), hour, minute, true);//Yes 24 hour time
+            mTimePicker.setTitle("Select Time");
+            mTimePicker.show();
+            startTime = mcurrentTime.getTimeInMillis();
+
+        });
+    }
+
+    public void makeAppoitment(View view) {
+        ValidateInputs();
+
+
+    }
+
+    public void makeAppoitmen() {
+        requestBol = true;
+        String userid = FirebaseAuth.getInstance().getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("appointments").child(userid);
+        appoinmentModel model = new appoinmentModel(carType.getText().toString(), carProblem.getText().toString(),
+                carmodel.getText().toString(), appointMentdate.getText().toString());
+        Map appoitment = new HashMap();
+        appoitment.put(userid, model);
+        ref.updateChildren(appoitment);
+        request.setText("Appointment made");
+        makeAppointment();
+        Toast.makeText(this, "Appointment made successful ", Toast.LENGTH_SHORT).show();
+    }
+
+    public void parsedataFrommap() {
+        problems = getIntent().getExtras().getString("carProblem");
+        getCarmodel = getIntent().getExtras().getString("carModel");
+        getCartype = getIntent().getExtras().getString("carType");
+
+        carProblem.setText(problems);
+        carType.setText(getCartype);
+        carmodel.setText(getCarmodel);
+    }
+
+    public void ValidateInputs() {
+        String problem = carProblem.getText().toString().trim();
+        String Model = carmodel.getText().toString().trim();
+        String type = carType.getText().toString().trim();
+        String date = appointMentdate.getText().toString();
+
+
+        if (TextUtils.isEmpty(problem)) {
+            carProblem.setError("Car problem required");
+            carProblem.requestFocus();
+        }
+        if (TextUtils.isEmpty(Model)) {
+            carmodel.setError("Car model required");
+            carmodel.requestFocus();
+
+        }
+        if (TextUtils.isEmpty(type)) {
+            carType.setError("Car Type required");
+            carType.requestFocus();
+        }
+        if (TextUtils.isEmpty(date)) {
+            appointMentdate.setError("Date required");
+            appointMentdate.requestFocus();
+
+        }
+        if (date.equals("Date must be in future")) {
+            appointMentdate.setError("check date");
+            appointMentdate.requestFocus();
+
+        } else {
+            makeAppoitmen();
+            alertDialog();
+        }
+
+    }
+
+
+    public void showDatePickerDialog() {
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String date = month + "/" + dayOfMonth + "/" + year;
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        int thisMont = Calendar.getInstance().get(Calendar.MONTH);
+        int thisday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+        if (year >= thisYear && month >= thisMont && dayOfMonth >= thisday) {
+            appointMentdate.setText(date);
+
+        } else {
+            appointMentdate.setText("Date must be in future");
+            Toast.makeText(this, "select a future date", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void alertDialog() {
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
+        View mView = layoutInflaterAndroid.inflate(R.layout.thankyoumessge, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
+        alertDialogBuilderUserInput.setView(mView);
+
+
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton("Ok", (dialogBox, id) -> {
+                    dialogBox.cancel();
+                })
+
+                .setNegativeButton("Cancel",
+                        (dialogBox, id) -> {
+                            dialogBox.cancel();
+                        });
+
+        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.show();
+    }
+
+    public void makeAppointment() {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("car problem", carProblem.getText().toString());
+        map.put("carType", carType.getText().toString());
+        map.put("carModel", carmodel.getText().toString());
+        map.put("Date", appointMentdate.getText().toString());
+        map.put("Time", startTime);
+        map.put("mechanicRating", "");
+        map.put("customerId", userId);
+        map.put("timestamp", getCurrentTime());
+        map.put("status", "pending");
+        map.put("CustomerId", userId);
+        map.put("workingStatus", "busy");
+
+        db.collection("appointments").document().set(map)
+                .addOnSuccessListener(aVoid -> Toast.makeText(MakeAppointment.this, "Request made successful",
+                        Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> {
+                    Toast.makeText(MakeAppointment.this, "ERROR" + e.toString(),
+                            Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", e.toString());
+                });
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        String time = hourOfDay + "/" + minute;
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int minutes = Calendar.getInstance().get(Calendar.MINUTE);
+    }
+
+    public void puchNotificaction() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, 5);
+
+        PendingIntent.getBroadcast(this, 100, new Intent(""), PendingIntent.FLAG_UPDATE_CURRENT);
+        //alarmManager.setExact(AlarmManager.RTC,calendar.getTimeInMillis(),);
+    }
+
+    private Long getCurrentTime() {
+        Long timeStamp = System.currentTimeMillis() / 1000;
+        return timeStamp;
+    }
+}
+

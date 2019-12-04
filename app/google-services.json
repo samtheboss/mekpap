@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "705321919013",
+    "firebase_url": "https://mekpap-45765.firebaseio.com",
+    "project_id": "mekpap-45765",
+    "storage_bucket": "mekpap-45765.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705321919013:android:ebb67e21f1ae60bf71d5cc",
+        "android_client_info": {
+          "package_name": "com.mekpap.mekPap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705321919013-pjitn3e4fk9l3mt1deji2o1u10nipbfr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mekpap.mekPap",
+            "certificate_hash": "7efde7af7a62eccffb85a16aa9605b297c5b538e"
+          }
+        },
+        {
+          "client_id": "705321919013-a9numkgufbce66mfbllhrl2i4r290bns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy9ifcRP9nbQnydx7Zcpx21cnYiTbg-tQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705321919013-a9numkgufbce66mfbllhrl2i4r290bns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705321919013:android:c0d1a19d3fa19eb871d5cc",
+        "android_client_info": {
+          "package_name": "com.mekpap.mekpapauto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "705321919013-a9numkgufbce66mfbllhrl2i4r290bns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy9ifcRP9nbQnydx7Zcpx21cnYiTbg-tQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "705321919013-a9numkgufbce66mfbllhrl2i4r290bns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

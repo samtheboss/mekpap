@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottomSheet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="150dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    >
+
+
+    <LinearLayout
+        android:layout_margin="20dp"
+        android:id="@+id/mapsBottomLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:layout_marginTop="10dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:textColorHint="@color/white"
+                    android:focusable="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/customerLocationMapsTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="#fff"
+                        android:clickable="true"
+                        android:elevation="4dp"
+                        android:padding="15dp"
+                        android:text=" Mechanic Location"
+                        android:textSize="20sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:layout_marginTop="5dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:textColorHint="@color/white"
+                    android:focusable="true">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/timestampMapsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="#fff"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:padding="15dp"
+                    android:text=" Customer Location"
+                    android:textSize="20sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:layout_marginTop="5dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:textColorHint="@color/white"
+                    android:focusable="true">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/myLocationMapsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="#fff"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:padding="15dp"
+                    android:text="My Location"
+                    android:textSize="20sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:layout_marginTop="5dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:textColorHint="@color/white"
+                    android:focusable="true">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mechanicName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="#fff"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:padding="15dp"
+                    android:drawablePadding="10dp"
+                    android:text="Mechanic Name"
+                    android:textSize="20sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:layout_marginTop="5dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:textColorHint="@color/white"
+                    android:focusable="true">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="#fff"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:padding="15dp"
+                    android:drawableLeft="@drawable/phone"
+                    android:text="mechanic Phone"
+                    android:textSize="20sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:layout_marginTop="5dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:textColorHint="@color/white"
+                    android:focusable="true">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mechanicdistance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="#fff"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:padding="15dp"
+                    android:text="Mechanic Distance"
+                    android:textSize="20sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

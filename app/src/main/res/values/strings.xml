@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">MekPap</string>
+    <string name="title_activity_maps">MekPap</string>
+    <string name="title_activity_menu">MekPap</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">MekPap</string>
+    <string name="nav_header_subtitle">info@mekpap.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">logout</string>
+
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Profile</string>
+    <string name="menu_tools">Support</string>
+    <string name="menu_share">Share</string>
+    <string name="orderHistory">Order History</string>
+    <string name="menu_send">Send</string>
+    <string name="menu_home">Home</string>
+    <string name="transaction">My Transaction</string>
+    <string name="Profile">Profile</string>
+    <string name="Support">Support</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="make_request">Make request</string>
+    <string name="make_appointment">Make Appointment</string>
+
+</resources>

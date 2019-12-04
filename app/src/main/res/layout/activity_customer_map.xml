@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".customer.customer_map">
+
+
+    <fragment
+
+        android:id="@+id/map"
+
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="498dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_marginTop="49dp">
+
+            <fragment
+                android:id="@+id/autocomplete_fragment"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Your Location" />
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/pullUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:drawableTop="@drawable/pullup"
+            android:onClick="pullUp"
+            android:text="Request "
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/pulldown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:drawableTop="@drawable/pulldown"
+            android:onClick="pulldownbt"
+            android:text="Hide "
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+
+
+            >
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+
+                android:textColorHint="@color/card_bg_dark_color">
+
+                <AutoCompleteTextView
+                    android:id="@+id/problems"
+                    android:layout_width="match_parent"
+                    android:layout_height="111dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/startblue"
+                    android:completionHint="select your problem"
+                    android:hint="Describe the Car problem"
+                    android:textColorHint="@color/white"
+                    android:textSize="20dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:layout_marginLeft="10dp"
+                    android:focusableInTouchMode="true"
+                    android:textColorHint="@color/card_bg_dark_color">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/carType"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_margin="5dp"
+                        android:completionHint="select your car model"
+                        android:hint="Car Type"
+                        android:textColorHint="@color/dlighdack"
+                        android:textSize="20dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+
+                    android:focusableInTouchMode="true"
+                    android:textColorHint="@color/card_bg_dark_color">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/carModel"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_margin="5dp"
+                        android:completionHint="select your car model"
+                        android:hint="Car Model"
+                        android:textColorHint="@color/dlighdack"
+                        android:textSize="20dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="71dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/makeRequest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btnbgg"
+                    android:padding="10dp"
+
+                    android:text="@string/make_request"
+                    android:textColor="#fff"
+                    android:textSize="14sp" />
+
+
+                <Button
+
+                    android:id="@+id/makeRequestAppointment"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btnbg"
+                    android:onClick="loadAppoinment"
+                    android:text="@string/make_appointment"
+                    android:textColor="#fff"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

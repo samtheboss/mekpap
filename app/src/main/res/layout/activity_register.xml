@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+
+    android:padding="30dp"
+    android:layout_gravity="center"
+    android:id="@+id/parentlayou"
+    android:gravity="top"
+    android:orientation="vertical"
+    tools:context="com.mekpap.mekPap.register">
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/usericon"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        android:focusableInTouchMode="true"
+        android:textColorHint="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" User Name"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:focusableInTouchMode="true"
+        android:layout_marginTop="5dp"
+        android:textColorHint="@color/white"
+        android:focusable="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" Email"
+            android:textColor="@color/white"
+
+            android:id="@+id/email"
+            android:inputType="textEmailAddress"
+            android:textSize="20dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:textColorHint="@color/white"
+        android:focusable="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" Password"
+            android:textColor="@color/white"
+
+            android:id="@+id/pass"
+            android:inputType="textPassword"
+            android:textSize="20dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:textColorHint="@color/white"
+        android:focusable="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirm Password"
+            android:textColor="@color/white"
+
+            android:inputType="textPassword"
+            android:id="@+id/confirm_pass"
+            android:textSize="20dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:focusableInTouchMode="true"
+        android:textColorHint="@color/white"
+        android:focusable="true">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:textColor="@color/white"
+
+            android:inputType="phone"
+            android:id="@+id/phone_number"
+            android:textSize="20dp"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+   <!-- <RadioGroup
+        android:background="@color/card_bg_dark_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Gender"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20dp"/>
+        <RadioButton
+            android:id="@+id/male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp"/>
+        <RadioButton
+            android:id="@+id/femalw"
+            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:textSize="20dp"/>
+    </RadioGroup>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/startblue"
+            android:onClick="signup_user"
+            android:text="Sign UP" />
+
+        <!--<Button
+            android:id="@+id/customer"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/border_corners"
+            android:onClick="signup_driver"
+            android:text="Driver sign_in" />-->
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/white"
+    tools:context=".customer.MakeAppointment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        >
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textColorHint="@color/card_bg_dark_color">
+
+            <AutoCompleteTextView
+                android:id="@+id/problems"
+
+                android:layout_width="match_parent"
+                android:layout_height="138dp"
+                android:layout_margin="5dp"
+                android:completionHint="select your problem"
+                android:drawableLeft="@drawable/problem"
+                android:drawablePadding="10dp"
+                android:hint="Describe Car problem"
+                android:textColor="@color/dblue"
+                android:textColorHint="@color/dlighdack"
+                android:textSize="20dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textColorHint="@color/card_bg_dark_color">
+
+            <AutoCompleteTextView
+                android:textColor="@color/card_bg_dark_color"
+                android:id="@+id/carModel"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_margin="5dp"
+                android:completionHint="select your car model"
+                android:drawableLeft="@drawable/model"
+                android:drawablePadding="10dp"
+                android:hint="Car Model"
+                android:textColorHint="@color/dlighdack"
+                android:textSize="20dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textColorHint="@color/card_bg_dark_color">
+
+            <AutoCompleteTextView
+                android:id="@+id/carType"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_margin="5dp"
+                android:drawablePadding="10dp"
+                android:textColor="@color/white"
+
+                android:drawableLeft="@drawable/type"
+                android:completionHint="select your car model"
+                android:hint="Car Type"
+                android:textColorHint="@color/dlighdack"
+                android:textSize="20dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textColorHint="@color/card_bg_dark_color">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/appointmentdate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableLeft="@drawable/requestdate"
+                android:drawablePadding="10dp"
+                android:editable="false"
+                android:textColor="@color/card_bg_dark_color"
+
+                android:hint="Date"
+                android:textSize="20dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textColorHint="@color/card_bg_dark_color">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/appointmentTime"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableLeft="@drawable/time"
+                android:drawablePadding="10dp"
+                android:editable="false"
+                android:textColor="@color/card_bg_dark_color"
+
+                android:hint="Time"
+                android:textSize="20dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+       
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/makeRequestAppointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/btnbg"
+                android:onClick="makeAppoitment"
+                android:text="Make Appointment"
+                android:textColor="#fff"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

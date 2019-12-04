@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mekpap.mekPap">
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:name="com.mekpap.mekPap.UberRx"
+        android:allowBackup="true"
+        android:icon="@drawable/applogo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/applogo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:icon">
+        <activity android:name="com.mekpap.mekPap.mpesa.mpesaAcitivity"/>
+        <activity android:name="com.mekpap.mekPap.notification.mechanicInformation" />
+
+        <receiver
+            android:name="com.mekpap.mekPap.customer.notificationReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
+            android:name="com.mekpap.mekPap.service.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name="com.mekpap.mekPap.support.DiscussionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mekpap.mekPap.navigation.menu" />
+        </activity>
+        <activity android:name="com.mekpap.mekPap.support.Chat">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mekpap.mekPap.navigation.menu" />
+        </activity>
+        <activity android:name="com.mekpap.mekPap.support.Users">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mekpap.mekPap.navigation.menu" />
+        </activity>
+        <activity android:name="com.mekpap.mekPap.support.Main2Activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mekpap.mekPap.navigation.menu" />
+        </activity>
+        <activity android:name="com.mekpap.mekPap.history.HistorySingleActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mekpap.mekPap.navigation.menu" />
+        </activity>
+        <activity android:name="com.mekpap.mekPap.history.historyActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mekpap.mekPap.navigation.menu" />
+        </activity>
+        <activity android:name="com.mekpap.mekPap.navigation.dashboard" />
+        <!--
+        AIzaSyBU5qrfwybWfjovFYj4bp9FkzZ4upwZu6o
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+
+              <meta-data android:name="com.google.android.geo.API_KEY" android:value="YOUR_API_KEY_FROM_GOOGLE_DEV_CONSOLE"/>
+    </application>
+
+</manifest>
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name="com.mekpap.mekPap.customer.MakeAppointment">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mekpap.mekPap.navigation.menu" />
+        </activity>
+        <activity
+            android:name="com.mekpap.mekPap.navigation.menu"
+            android:label="@string/title_activity_menu"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.mekpap.mekPap.customer.customerProfile" />
+        <activity android:name="com.mekpap.mekPap.profile">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mekpap.mekPap.navigation.menu" />
+        </activity>
+        <activity
+            android:name="com.mekpap.mekPap.register"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.mekpap.mekPap.navigation.splashScreen"
+            android:label="@string/title_activity_maps" />
+        <activity android:name="com.mekpap.mekPap.DriverMapActivity" />
+        <activity android:name="com.mekpap.mekPap.MapsActivity" />
+        <activity android:name="com.mekpap.mekPap.login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.mekpap.mekPap.customer.customer_map">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mekpap.mekPap.navigation.menu" />
+        </activity>
+        <activity
+            android:name="com.mekpap.mekPap.MainActivity"
+            android:label="@string/title_activity_maps">
+
+            <!--
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+            -->
+        </activity>
+    </application>
+
+</manifest>

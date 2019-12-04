@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    tools:context=".mpesa.mpesaAcitivity">
+
+    <LinearLayout
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/paymentlogo"
+            />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:text="Package Plane"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+
+                android:textColor="@color/dblue"
+                android:textSize="25dp"
+                android:paddingLeft="20dp"
+                android:text="Trial 100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:focusableInTouchMode="true"
+            android:textColorHint="@color/cardview_dark_background">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAmount"
+                android:drawableLeft="@drawable/ic_monetization_on_black_24dp"
+                android:layout_width="match_parent"
+                android:layout_height="69dp"
+                android:drawablePadding="10dp"
+                android:hint="Amount to Pay in Ksh"
+                android:textColor="@color/cardview_dark_background"
+                android:inputType="number"
+                android:textSize="20dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+     <LinearLayout
+         android:orientation="horizontal"
+         android:layout_margin="20dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <TextView
+             android:textColor="@color/colorPrimaryDark"
+             android:textSize="20dp"
+             android:text="Payment Method"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"/>
+         <TextView
+
+             android:textColor="@color/grn"
+             android:textSize="25dp"
+             android:paddingLeft="20dp"
+             android:text="M-PESA"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"/>
+     </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:focusableInTouchMode="true"
+            android:textColorHint="@color/cardview_dark_background">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPhone"
+                android:drawableStart="@drawable/phone"
+                android:layout_width="match_parent"
+                android:layout_height="69dp"
+                android:drawablePadding="10dp"
+                android:hint="Enter Phone Number"
+                android:textColor="@color/cardview_dark_background"
+                android:inputType="phone"
+                android:textSize="20dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <Button
+            android:layout_margin="20dp"
+            android:background="@drawable/btnbgg"
+            android:layout_gravity="center"
+            android:id="@+id/btnPay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pay Now"
+            android:textColor="@color/white"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
