@@ -1,6 +1,7 @@
 package com.mekpap.mekPap.navigation;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -52,6 +53,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -66,6 +68,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mekpap.mekPap.R;
 import com.mekpap.mekPap.customer.MakeAppointment;
@@ -84,6 +87,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class menu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
@@ -198,7 +202,7 @@ public class menu extends AppCompatActivity
 
         cartypes.setAdapter(carTypesAdapter);
         cartypes.setThreshold(1);
-
+        checkUserStatues();
         carModel.setAdapter(carModelsAdaper);
         carModel.setThreshold(1);
         getGaragesAround();
@@ -352,7 +356,34 @@ public class menu extends AppCompatActivity
     }
 
     void checkUserStatues() {
-        DocumentReference userRequestData = db.document("mechanic_requests");
+        ProgressDialog loadingBar = new ProgressDialog(this);
+        loadingBar.setTitle("checking pending  Requests");
+        loadingBar.setMessage("Please wait, while we are checking the request.");
+        loadingBar.setCanceledOnTouchOutside(false);
+       loadingBar.show();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DocumentReference userRequestData = db.document("users/" + userId+"/orders/7qv9fpfoa0nqBIEZH7YW");
+        userRequestData.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()){
+
+                String status = Objects.requireNonNull(documentSnapshot.get("status")).toString();
+                if(status.equals("Accepted")){
+
+                    mRequest.setText("you Have a pending request");
+                    prob.setVisibility(View.GONE);
+                    carModel.setVisibility(View.GONE);
+                    cartypes.setVisibility(View.GONE);
+                    Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
+                    loadingBar.dismiss();
+                }
+
+
+            }
+            else {
+                loadingBar.dismiss();
+                Toast.makeText(this, "no pending request", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     //save history
@@ -378,6 +409,7 @@ public class menu extends AppCompatActivity
 
 
     }
+
 
     //check if gps is enabled
     public void chechGpsStatas() {

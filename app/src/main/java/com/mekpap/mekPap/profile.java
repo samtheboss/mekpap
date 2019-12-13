@@ -134,10 +134,10 @@ public class profile extends AppCompatActivity {
                 String UsrEmail = Objects.requireNonNull(documentSnapshot.get("Email")).toString();
                 String phonenuber = Objects.requireNonNull(documentSnapshot.get("phone_Number")).toString();
                 String username = Objects.requireNonNull(documentSnapshot.get("userName")).toString();
-                String profilepicture = Objects.requireNonNull(documentSnapshot.get("profileImageUrl")).toString();
-                if (profilepicture != null) {
-                    Glide.with(getApplication()).load(profilepicture).into(profilepic);
-                }
+              //  String profilepicture = Objects.requireNonNull(documentSnapshot.get("profileImageUrl")).toString();
+
+                  //  Glide.with(getApplication()).load(profilepicture).into(profilepic);
+
                 user.setText(username);
                 phone.setText(phonenuber);
                 email.setText(UsrEmail);

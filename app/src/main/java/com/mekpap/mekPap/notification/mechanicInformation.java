@@ -41,11 +41,11 @@ public class mechanicInformation extends FragmentActivity implements OnMapReadyC
     void getMechaniInformation() {
         documentReference.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
-                String UsrEmail = Objects.requireNonNull(documentSnapshot.get("Email")).toString();
-                String phonenuber = Objects.requireNonNull(documentSnapshot.get("phone_Number")).toString();
-                String username = Objects.requireNonNull(documentSnapshot.get("userName")).toString();
+            //    String UsrEmail = Objects.requireNonNull(documentSnapshot.get("Email")).toString();
+                String phonenuber = Objects.requireNonNull(documentSnapshot.get("phone")).toString();
+                String username = Objects.requireNonNull(documentSnapshot.get("name")).toString();
 
-                String profilepicture = Objects.requireNonNull(documentSnapshot.get("profileImageUrl")).toString();
+                String profilepicture = Objects.requireNonNull(documentSnapshot.get("photoUrl")).toString();
                 if (profilepicture != null) {
                     Glide.with(getApplication()).load(profilepicture).into(profilepic);
                 } else {
@@ -53,7 +53,7 @@ public class mechanicInformation extends FragmentActivity implements OnMapReadyC
                 }
                 user.setText(username);
                 phone.setText(phonenuber);
-                email.setText(UsrEmail);
+            //    email.setText(UsrEmail);
 
 
             } else {
