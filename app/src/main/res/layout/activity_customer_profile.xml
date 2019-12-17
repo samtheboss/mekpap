@@ -19,7 +19,7 @@
         android:background="@color/LightBlue"
         android:orientation="vertical">
 
-        <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <ImageView
             android:id="@+id/profile_image"
             android:layout_width="wrap_content"
             android:layout_height="96dp"

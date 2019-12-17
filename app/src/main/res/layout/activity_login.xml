@@ -94,7 +94,7 @@
     android:textColor="@color/cardview_dark_background"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="forget password"/>
+    android:text="forgot password"/>
   <!--  <Button
         android:id="@+id/user_login"
         android:layout_width="130dp"

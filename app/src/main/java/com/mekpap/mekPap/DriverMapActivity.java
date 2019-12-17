@@ -113,14 +113,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         mCustomerDestination = findViewById(R.id.customerDestination);
 
         mWorkingSwitch = findViewById(R.id.workingSwitch);
-        mWorkingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    connectDriver();
-                }else{
-                    disconnectDriver();
-                }
+        mWorkingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                connectDriver();
+            }else{
+                disconnectDriver();
             }
         });
 

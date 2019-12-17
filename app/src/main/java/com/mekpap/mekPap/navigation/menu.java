@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -53,7 +54,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -68,7 +68,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mekpap.mekPap.R;
 import com.mekpap.mekPap.customer.MakeAppointment;
@@ -150,10 +149,9 @@ public class menu extends AppCompatActivity
     private Marker pickupMarker;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String destination;
-
+TextView requestStatuesinfo;
     PlacesClient placesClient;
     String apiKey = String.valueOf(R.string.google_maps_key);
-  // String getApiKey = String.valueOf(R.string.google_maps_key);
     SupportMapFragment mapFragment;
     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -174,7 +172,7 @@ public class menu extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         checkLocationPermission();
         pullUp = findViewById(R.id.pullUp);
-        pulldown = findViewById(R.id.pulldown);
+        requestStatuesinfo = findViewById(R.id.requestStatus);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -202,7 +200,7 @@ public class menu extends AppCompatActivity
 
         cartypes.setAdapter(carTypesAdapter);
         cartypes.setThreshold(1);
-        checkUserStatues();
+        checkRequestStatus();
         carModel.setAdapter(carModelsAdaper);
         carModel.setThreshold(1);
         getGaragesAround();
@@ -355,7 +353,7 @@ public class menu extends AppCompatActivity
 
     }
 
-    void checkUserStatues() {
+    void checkRequestStatus() {
         ProgressDialog loadingBar = new ProgressDialog(this);
         loadingBar.setTitle("checking pending  Requests");
         loadingBar.setMessage("Please wait, while we are checking the request.");
@@ -373,6 +371,7 @@ public class menu extends AppCompatActivity
                     prob.setVisibility(View.GONE);
                     carModel.setVisibility(View.GONE);
                     cartypes.setVisibility(View.GONE);
+                    requestStatuesinfo.setVisibility(View.VISIBLE);
                     Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
                     loadingBar.dismiss();
                 }
@@ -380,6 +379,11 @@ public class menu extends AppCompatActivity
 
             }
             else {
+
+                prob.setVisibility(View.VISIBLE);
+                carModel.setVisibility(View.VISIBLE);
+                cartypes.setVisibility(View.VISIBLE);
+                requestStatuesinfo.setVisibility(View.GONE);
                 loadingBar.dismiss();
                 Toast.makeText(this, "no pending request", Toast.LENGTH_SHORT).show();
             }
