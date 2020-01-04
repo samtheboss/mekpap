@@ -108,7 +108,7 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
         parsedataFrommap();
         latlng = new LatLng(0.0, 0.0);
         appointMentTimw.setOnClickListener(v -> {
-            // TODO Auto-generated method stub
+
             Calendar mcurrentTime = Calendar.getInstance();
             int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
             int minute = mcurrentTime.get(Calendar.MINUTE);
