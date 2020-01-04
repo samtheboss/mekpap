@@ -103,7 +103,7 @@ public class mpesaAcitivity extends AppCompatActivity implements View.OnClickLis
                 Utils.sanitizePhoneNumber(phone_number),
                 CALLBACKURL,
                 "mekPap limited", //Account reference
-                "Testing"  //Transaction description
+                ""  //Transaction description
         );
 
 

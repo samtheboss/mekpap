@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@drawable/background_image_one_signup"
 
     android:padding="30dp"
-    android:layout_gravity="center"
+    android:layout_gravity="bottom|center"
     android:id="@+id/parentlayou"
-    android:gravity="top"
+    android:gravity="bottom"
     android:orientation="vertical"
     tools:context="com.mekpap.mekPap.register">
 

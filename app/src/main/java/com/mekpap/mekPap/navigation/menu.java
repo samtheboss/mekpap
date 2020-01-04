@@ -54,6 +54,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -69,6 +72,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.mekpap.mekPap.R;
 import com.mekpap.mekPap.customer.MakeAppointment;
 import com.mekpap.mekPap.customer.customer_map;
@@ -360,34 +365,53 @@ TextView requestStatuesinfo;
         loadingBar.setCanceledOnTouchOutside(false);
        loadingBar.show();
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DocumentReference userRequestData = db.document("users/" + userId+"/orders/7qv9fpfoa0nqBIEZH7YW");
-        userRequestData.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()){
-
-                String status = Objects.requireNonNull(documentSnapshot.get("status")).toString();
-                if(status.equals("Accepted")){
-
-                    mRequest.setText("you Have a pending request");
-                    prob.setVisibility(View.GONE);
-                    carModel.setVisibility(View.GONE);
-                    cartypes.setVisibility(View.GONE);
-                    requestStatuesinfo.setVisibility(View.VISIBLE);
-                    Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
-                    loadingBar.dismiss();
-                }
 
 
-            }
-            else {
+        CollectionReference userRequestData =  db.collection("users").document(userId).collection("orders");
 
-                prob.setVisibility(View.VISIBLE);
-                carModel.setVisibility(View.VISIBLE);
-                cartypes.setVisibility(View.VISIBLE);
-                requestStatuesinfo.setVisibility(View.GONE);
-                loadingBar.dismiss();
-                Toast.makeText(this, "no pending request", Toast.LENGTH_SHORT).show();
-            }
-        });
+       userRequestData.get().addOnCompleteListener(task -> {
+         if (task.isSuccessful()){
+             for (QueryDocumentSnapshot document :task.getResult()){
+
+                     String status = Objects.requireNonNull(document.get("status")).toString();
+                     if(status.equals("Requesting")||status.equals("Pending")){
+
+                         mRequest.setText("you Have a pending request");
+                         requestStatuesinfo.setVisibility(View.VISIBLE);
+                         Toast.makeText(menu.this, status, Toast.LENGTH_SHORT).show();
+                         loadingBar.dismiss();
+                     } else {
+
+                         prob.setVisibility(View.VISIBLE);
+                         carModel.setVisibility(View.VISIBLE);
+                         cartypes.setVisibility(View.VISIBLE);
+                         requestStatuesinfo.setVisibility(View.GONE);
+                         loadingBar.dismiss();
+                         Toast.makeText(menu.this, "no pending request", Toast.LENGTH_SHORT).show();
+                     }
+
+
+
+             }
+         }
+         else {
+
+             prob.setVisibility(View.VISIBLE);
+             carModel.setVisibility(View.VISIBLE);
+             cartypes.setVisibility(View.VISIBLE);
+             requestStatuesinfo.setVisibility(View.GONE);
+             loadingBar.dismiss();
+             Toast.makeText(menu.this, "no pending request", Toast.LENGTH_SHORT).show();
+         }
+      /*  if(!task.isSuccessful()){
+            prob.setVisibility(View.VISIBLE);
+            carModel.setVisibility(View.VISIBLE);
+            cartypes.setVisibility(View.VISIBLE);
+            requestStatuesinfo.setVisibility(View.GONE);
+            loadingBar.dismiss();
+        }*/
+       });
+
     }
 
     //save history

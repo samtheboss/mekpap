@@ -1,13 +1,12 @@
 package com.mekpap.mekPap.customer;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,28 +19,19 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mekpap.mekPap.R;
-
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MakeAppointment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-    AutoCompleteTextView carmodel, carProblem, carType;
     private static final String tag = "MakeAppointment";
-    Button request;
-    private DatePickerDialog.OnDateSetListener onDateSetListener;
-    com.google.android.material.textfield.TextInputEditText appointMentdate, appointMentTimw;
-    private Boolean requestBol = false;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String userId;
-    String problems, getCarmodel, getCartype;
-    long startTime;
     private static final String[] carTypes = new String[]{"Acura", "Alfa Romeo",
             "Aston Martin", "Audi", "Bentley", "BMW", "Bugatti",
             "Buick", "Cadillac", "Chevrolet", "Chrysler",
@@ -56,8 +46,6 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
             "Tesla", "Toyota", "Volkswagen", "Volvo",
 
     };
-
-
     private static final String[] carModels = new String[]{"4-runner", "Allex", "Allion", "Alphard",
             "Aqua", "Auris", "Avensis", "Axio", "Axion", "Belta",
             "Caldina", "Camry", "Carina", "Corolla",
@@ -80,6 +68,17 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
             "Pajero IO", "Pajero Mini", "RVR", "Shogun",
             "LX", "RX", "Escape", "Ranger"
     };
+    AutoCompleteTextView carmodel, carProblem, carType;
+    Button request;
+    com.google.android.material.textfield.TextInputEditText appointMentdate, appointMentTimw;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String userId;
+    String problems, getCarmodel, getCartype;
+    long startTime;
+    private DatePickerDialog.OnDateSetListener onDateSetListener;
+    private Boolean requestBol = false;
+    private LatLng latlng;
+    Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +106,7 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
         carmodel.setAdapter(carModelsAdaper);
         carmodel.setThreshold(1);
         parsedataFrommap();
-
+        latlng = new LatLng(0.0, 0.0);
         appointMentTimw.setOnClickListener(v -> {
             // TODO Auto-generated method stub
             Calendar mcurrentTime = Calendar.getInstance();
@@ -127,20 +126,6 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
         ValidateInputs();
 
 
-    }
-
-    public void makeAppoitmen() {
-        requestBol = true;
-        String userid = FirebaseAuth.getInstance().getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("appointments").child(userid);
-        appoinmentModel model = new appoinmentModel(carType.getText().toString(), carProblem.getText().toString(),
-                carmodel.getText().toString(), appointMentdate.getText().toString());
-        Map appoitment = new HashMap();
-        appoitment.put(userid, model);
-        ref.updateChildren(appoitment);
-        request.setText("Appointment made");
-        makeAppointment();
-        Toast.makeText(this, "Appointment made successful ", Toast.LENGTH_SHORT).show();
     }
 
     public void parsedataFrommap() {
@@ -183,7 +168,7 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
             appointMentdate.requestFocus();
 
         } else {
-            makeAppoitmen();
+            makeAppointment();
             alertDialog();
         }
 
@@ -240,20 +225,29 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
     }
 
     public void makeAppointment() {
-
+        double lat = mLastLocation.getLatitude();
+        double lng = mLastLocation.getLongitude();
         Map<String, Object> map = new HashMap<>();
-        map.put("car problem", carProblem.getText().toString());
-        map.put("carType", carType.getText().toString());
-        map.put("carModel", carmodel.getText().toString());
         map.put("Date", appointMentdate.getText().toString());
         map.put("Time", startTime);
-        map.put("mechanicRating", "");
+        map.put("carYear", "");
+        map.put("remWaitTime", 0.0);
+        map.put("appointmentId", "");
+        map.put("garageId", "");
+        map.put("passedMeks", 0);
+        map.put("carType", carType.getText().toString());
+        map.put("carModel", carmodel.getText().toString());
+        map.put("customerRating", 0);
+        map.put("customerComment", "");
+        map.put("mechanicRating", 0);
         map.put("customerId", userId);
         map.put("timestamp", getCurrentTime());
-        map.put("status", "pending");
-        map.put("CustomerId", userId);
-        map.put("workingStatus", "busy");
-
+        map.put("status", "Requesting");
+        map.put("lat", lat);
+        map.put("lng", lng);
+        map.put("carLocation", "");
+        map.put("mekId", "");
+        map.put("workingStatus", "");
         db.collection("appointments").document().set(map)
                 .addOnSuccessListener(aVoid -> Toast.makeText(MakeAppointment.this, "Request made successful",
                         Toast.LENGTH_SHORT).show())

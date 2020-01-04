@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,7 +94,7 @@ public class login extends AppCompatActivity {
         View mView = layoutInflaterAndroid.inflate(R.layout.resetpassword, null);
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
         alertDialogBuilderUserInput.setView(mView);
-        final com.google.android.material.textfield.TextInputEditText  userInputDialogEditText;
+        final EditText userInputDialogEditText;
         userInputDialogEditText = findViewById(R.id.userInputDialog);
         String userEmail = userInputDialogEditText.getText().toString();
         alertDialogBuilderUserInput
