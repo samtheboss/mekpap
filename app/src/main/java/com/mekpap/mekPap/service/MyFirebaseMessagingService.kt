@@ -9,7 +9,7 @@ import com.mekpap.mekPap.notification.NotificationHelper
 
 class MyFirebaseMessagingService:FirebaseMessagingService(){
     private var TAG = "FCM"
-    override fun onNewToken(p0: String?) {
+    override fun onNewToken(p0: String) {
         super.onNewToken(p0)
         Log.d(TAG,"token $p0")
         if(p0 == null) throw NullPointerException("FCM token is null")

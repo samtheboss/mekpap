@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg3"
 
     android:layout_gravity="center"
     android:id="@+id/parentlayou"
@@ -13,7 +12,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="248dp"
+        android:layout_height="207dp"
         android:layout_gravity="center"
 
         android:background="@color/LightBlue"
@@ -31,6 +30,7 @@
 
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="40dp"
         android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
             android:focusableInTouchMode="true"
-            android:textColorHint="@color/white">
+            android:textColorHint="@color/card_bg_dark_color">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/user"
@@ -62,7 +62,7 @@
             android:focusableInTouchMode="true"
             android:layout_marginTop="5dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:textColorHint="@color/white"
+            android:textColorHint="@color/card_bg_dark_color"
             android:focusable="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -81,7 +81,7 @@
             android:layout_marginTop="5dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:focusableInTouchMode="true"
-            android:textColorHint="@color/white"
+            android:textColorHint="@color/card_bg_dark_color"
             android:focusable="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -96,7 +96,7 @@
 
     </LinearLayout>
 
-    <include
-        layout="@layout/maps_bottom_sheet" />
+<!--    <include-->
+<!--        layout="@layout/maps_bottom_sheet" />-->
 
 </LinearLayout>

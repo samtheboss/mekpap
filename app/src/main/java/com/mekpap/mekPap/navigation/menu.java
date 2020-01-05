@@ -54,9 +54,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -70,10 +67,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.mekpap.mekPap.R;
 import com.mekpap.mekPap.customer.MakeAppointment;
 import com.mekpap.mekPap.customer.customer_map;
@@ -82,9 +77,6 @@ import com.mekpap.mekPap.login;
 import com.mekpap.mekPap.mpesa.mpesaAcitivity;
 import com.mekpap.mekPap.profile;
 import com.mekpap.mekPap.support.Users;
-
-
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -154,11 +146,12 @@ public class menu extends AppCompatActivity
     private Marker pickupMarker;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String destination;
-TextView requestStatuesinfo;
+    TextView requestStatuesinfo;
     PlacesClient placesClient;
     String apiKey = String.valueOf(R.string.google_maps_key);
     SupportMapFragment mapFragment;
     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    LinearLayout requestComponet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,7 +183,8 @@ TextView requestStatuesinfo;
         prob = findViewById(R.id.problems);
         carModel = findViewById(R.id.carModel);
         cartypes = findViewById(R.id.carType);
-        pullUpbutton = findViewById(R.id.menu);
+        requestComponet = findViewById(R.id.component);
+        // pullUpbutton = findViewById(R.id.menu);
         //settings = findViewById(R.id.profile);
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), apiKey);
@@ -199,20 +193,22 @@ TextView requestStatuesinfo;
         ArrayAdapter<String> problemsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, problems);
         ArrayAdapter<String> carTypesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carTypes);
         ArrayAdapter<String> carModelsAdaper = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carModels);
-        loadProblemsDroFirebase();
+        //loadProblemsDroFirebase();
         // prob.setAdapter(problemsAdapter);
         prob.setThreshold(1);
 
         cartypes.setAdapter(carTypesAdapter);
         cartypes.setThreshold(1);
-        checkRequestStatus();
         carModel.setAdapter(carModelsAdaper);
         carModel.setThreshold(1);
         getGaragesAround();
+        //  checkRequestStatus();
+
+
         mRequest.setOnClickListener(v -> {
             recordHistory();
             recordCustomerRequest();
-           // confirmationdialog();
+            // confirmationdialog();
         });
 
 
@@ -363,46 +359,45 @@ TextView requestStatuesinfo;
         loadingBar.setTitle("checking pending  Requests");
         loadingBar.setMessage("Please wait, while we are checking the request.");
         loadingBar.setCanceledOnTouchOutside(false);
-       loadingBar.show();
+        loadingBar.show();
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
-        CollectionReference userRequestData =  db.collection("users").document(userId).collection("orders");
+        CollectionReference userRequestData = db.collection("users").document(userId).collection("orders");
 
-       userRequestData.get().addOnCompleteListener(task -> {
-         if (task.isSuccessful()){
-             for (QueryDocumentSnapshot document :task.getResult()){
+        userRequestData.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
 
-                     String status = Objects.requireNonNull(document.get("status")).toString();
-                     if(status.equals("Requesting")||status.equals("Pending")){
+                    String status = Objects.requireNonNull(document.get("status")).toString();
+                    if (status.equals("Requesting") || status.equals("Pending")) {
 
-                         mRequest.setText("you Have a pending request");
-                         requestStatuesinfo.setVisibility(View.VISIBLE);
-                         Toast.makeText(menu.this, status, Toast.LENGTH_SHORT).show();
-                         loadingBar.dismiss();
-                     } else {
+                        mRequest.setText("you Have a pending request");
+                        requestStatuesinfo.setVisibility(View.VISIBLE);
+                        requestComponet.setVisibility(View.VISIBLE);
+                        Toast.makeText(menu.this, status, Toast.LENGTH_SHORT).show();
+                        loadingBar.dismiss();
+                    } else {
 
-                         prob.setVisibility(View.VISIBLE);
-                         carModel.setVisibility(View.VISIBLE);
-                         cartypes.setVisibility(View.VISIBLE);
-                         requestStatuesinfo.setVisibility(View.GONE);
-                         loadingBar.dismiss();
-                         Toast.makeText(menu.this, "no pending request", Toast.LENGTH_SHORT).show();
-                     }
+                        prob.setVisibility(View.VISIBLE);
+                        carModel.setVisibility(View.VISIBLE);
+                        cartypes.setVisibility(View.VISIBLE);
+                        requestStatuesinfo.setVisibility(View.GONE);
+                        loadingBar.dismiss();
+                        Toast.makeText(menu.this, "no pending request", Toast.LENGTH_SHORT).show();
+                    }
 
 
+                }
+            } else {
 
-             }
-         }
-         else {
-
-             prob.setVisibility(View.VISIBLE);
-             carModel.setVisibility(View.VISIBLE);
-             cartypes.setVisibility(View.VISIBLE);
-             requestStatuesinfo.setVisibility(View.GONE);
-             loadingBar.dismiss();
-             Toast.makeText(menu.this, "no pending request", Toast.LENGTH_SHORT).show();
-         }
+                prob.setVisibility(View.VISIBLE);
+                carModel.setVisibility(View.VISIBLE);
+                cartypes.setVisibility(View.VISIBLE);
+                requestStatuesinfo.setVisibility(View.GONE);
+                loadingBar.dismiss();
+                Toast.makeText(menu.this, "no pending request", Toast.LENGTH_SHORT).show();
+            }
       /*  if(!task.isSuccessful()){
             prob.setVisibility(View.VISIBLE);
             carModel.setVisibility(View.VISIBLE);
@@ -410,7 +405,7 @@ TextView requestStatuesinfo;
             requestStatuesinfo.setVisibility(View.GONE);
             loadingBar.dismiss();
         }*/
-       });
+        });
 
     }
 
@@ -473,7 +468,7 @@ TextView requestStatuesinfo;
         double lat = mLastLocation.getLatitude();
         double lng = mLastLocation.getLongitude();
         CollectionReference ref = FirebaseFirestore.getInstance().collection("mechanic_requests");
-        // GeoFire geoFire = new GeoFire(ref);
+        //GeoFire geoFire = new GeoFire(ref);
         //GeoFirestore geoFirestore = new GeoFirestore(ref);
         FirebaseFirestore dbrequest = FirebaseFirestore.getInstance();
 
@@ -523,8 +518,9 @@ TextView requestStatuesinfo;
     private String driverFoundID;
 
     GeoQuery geoQuery;
-//confirmation dialog
-    public void confirmationdialog(){
+
+    //confirmation dialog
+    public void confirmationdialog() {
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
         View mView = layoutInflaterAndroid.inflate(R.layout.confirm_request, null);
         android.app.AlertDialog.Builder alertDialogBuilderUserInput = new android.app.AlertDialog.Builder(this);
@@ -546,9 +542,10 @@ TextView requestStatuesinfo;
         android.app.AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
         alertDialogAndroid.show();
     }
+
     // get closest mechanic
     private void getClosestMechanic() {
-        DatabaseReference driverLocation = FirebaseDatabase.getInstance().getReference().child("mechanicAvailable");
+        DatabaseReference driverLocation = FirebaseDatabase.getInstance().getReference().child("availableMechanics");
 
         GeoFire geoFire = new GeoFire(driverLocation);
         geoQuery = geoFire.queryAtLocation(new GeoLocation(pickupLocation.latitude, pickupLocation.longitude), radius);
@@ -603,7 +600,7 @@ TextView requestStatuesinfo;
     private DatabaseReference driverLocationRef;
     private ValueEventListener driverLocationRefListener;
 
-    //get the mechanic location aand mechanic information
+    //get the mechanic location and mechanic information
     private void getMechanicLocation() {
 
         driverLocationRef = FirebaseDatabase.getInstance().getReference().child("MechanicIsWorking").child(driverFoundID).child("l");
@@ -722,12 +719,15 @@ TextView requestStatuesinfo;
 
     //load appointment interface
     public void loadAppoinment(View view) {
-
+        double lat = mLastLocation.getLatitude();
+        double lng = mLastLocation.getLongitude();
         Intent intent = new Intent(menu.this, MakeAppointment.class);
         Bundle b = new Bundle();
         b.putString("carModel", carModel.getText().toString());
         b.putString("carType", cartypes.getText().toString());
         b.putString("carProblem", prob.getText().toString());
+        b.putDouble("latitude", lat);
+        b.putDouble("longitude", lng);
         intent.putExtras(b);
         startActivity(intent);
 
@@ -748,39 +748,16 @@ TextView requestStatuesinfo;
         pulldown.setVisibility(View.GONE);
     }
 
-    public void loadProblemsDroFirebase() {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-
-        final ArrayAdapter<String> autoComplete = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-
-        database.child("problems").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot suggestionSnapshot : dataSnapshot.getChildren()) {
-
-                    String suggestion = suggestionSnapshot.child("suggestion").getValue(String.class);
-                    autoComplete.add(suggestion);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        prob.setAdapter(autoComplete);
-    }
-
 
     boolean getDriversAroundStarted = false;
     List<Marker> markers = new ArrayList<Marker>();
 
     private void getGaragesAround() {
         getDriversAroundStarted = true;
-        DatabaseReference driverLocation = FirebaseDatabase.getInstance().getReference().child("driversAvailable");
+        DatabaseReference driverLocation = FirebaseDatabase.getInstance().getReference().child("availableMechanics");
         try {
             GeoFire geoFire = new GeoFire(driverLocation);
-            GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(mLastLocation.getLongitude(), mLastLocation.getLatitude()), 999999999);
+            GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(mLastLocation.getLongitude(), mLastLocation.getLatitude()), 15);
             if (geoQuery == null) {
                 Toast.makeText(this, "we are sorry no garage around here", Toast.LENGTH_SHORT).show();
             } else {

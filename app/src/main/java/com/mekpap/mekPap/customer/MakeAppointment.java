@@ -16,11 +16,16 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,7 +35,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MakeAppointment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class MakeAppointment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
+        TimePickerDialog.OnTimeSetListener, appointmentType.SingleChoiceListener {
     private static final String tag = "MakeAppointment";
     private static final String[] carTypes = new String[]{"Acura", "Alfa Romeo",
             "Aston Martin", "Audi", "Bentley", "BMW", "Bugatti",
@@ -79,6 +85,9 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
     private Boolean requestBol = false;
     private LatLng latlng;
     Location mLastLocation;
+    EditText apptype;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    LocationRequest mLocationRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +99,7 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
         appointMentdate = findViewById(R.id.appointmentdate);
         appointMentTimw = findViewById(R.id.appointmentTime);
         request = findViewById(R.id.makeRequestAppointment);
+        apptype = findViewById(R.id.typeOfApp);
         userId = FirebaseAuth.getInstance().getUid();
         appointMentdate.setOnClickListener(view -> showDatePickerDialog());
         onDateSetListener = (datePicker, year, month, day) -> {
@@ -98,6 +108,7 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
             appointMentdate.setText(date);
 
         };
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         ArrayAdapter<String> carTypesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, carTypes);
         ArrayAdapter<String> carModelsAdaper = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, carModels);
         carType.setAdapter(carTypesAdapter);
@@ -119,6 +130,15 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
             mTimePicker.show();
             startTime = mcurrentTime.getTimeInMillis();
 
+        });
+
+        apptype.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment fragment = new appointmentType();
+                fragment.setCancelable(false);
+                fragment.show(getSupportFragmentManager(), "s");
+            }
         });
     }
 
@@ -143,8 +163,7 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
         String Model = carmodel.getText().toString().trim();
         String type = carType.getText().toString().trim();
         String date = appointMentdate.getText().toString();
-
-
+        String appointment =apptype.getText().toString();
         if (TextUtils.isEmpty(problem)) {
             carProblem.setError("Car problem required");
             carProblem.requestFocus();
@@ -154,23 +173,28 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
             carmodel.requestFocus();
 
         }
-        if (TextUtils.isEmpty(type)) {
+       if (TextUtils.isEmpty(type)) {
             carType.setError("Car Type required");
             carType.requestFocus();
         }
-        if (TextUtils.isEmpty(date)) {
+         if (TextUtils.isEmpty(date)) {
             appointMentdate.setError("Date required");
             appointMentdate.requestFocus();
 
         }
-        if (date.equals("Date must be in future")) {
+         if (date.equals("Date must be in future")) {
             appointMentdate.setError("check date");
             appointMentdate.requestFocus();
 
-        } else {
-            makeAppointment();
-            alertDialog();
         }
+        if(appointment.equals("incoming")){
+            incomingAppointment();
+        }
+        if (appointment.equals("outGoing")){
+            outgoingAppointment();
+        }
+
+
 
     }
 
@@ -224,9 +248,10 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
         alertDialogAndroid.show();
     }
 
-    public void makeAppointment() {
-        double lat = mLastLocation.getLatitude();
-        double lng = mLastLocation.getLongitude();
+    public void incomingAppointment() {
+
+        double lat = getIntent().getExtras().getDouble("latitude");
+        double lng = getIntent().getExtras().getDouble("longitude");
         Map<String, Object> map = new HashMap<>();
         map.put("Date", appointMentdate.getText().toString());
         map.put("Time", startTime);
@@ -235,6 +260,8 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
         map.put("appointmentId", "");
         map.put("garageId", "");
         map.put("passedMeks", 0);
+        map.put("carProblem", carProblem.getText().toString());
+
         map.put("carType", carType.getText().toString());
         map.put("carModel", carmodel.getText().toString());
         map.put("customerRating", 0);
@@ -248,7 +275,43 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
         map.put("carLocation", "");
         map.put("mekId", "");
         map.put("workingStatus", "");
-        db.collection("appointments").document().set(map)
+        db.collection("incoming_appointments").document().set(map)
+                .addOnSuccessListener(aVoid -> Toast.makeText(MakeAppointment.this, "Request made successful",
+                        Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> {
+                    Toast.makeText(MakeAppointment.this, "ERROR" + e.toString(),
+                            Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", e.toString());
+                });
+    }
+    public void outgoingAppointment() {
+
+        double lat = getIntent().getExtras().getDouble("latitude");
+        double lng = getIntent().getExtras().getDouble("longitude");
+        Map<String, Object> map = new HashMap<>();
+        map.put("Date", appointMentdate.getText().toString());
+        map.put("Time", startTime);
+        map.put("carYear", "");
+        map.put("remWaitTime", 0.0);
+        map.put("appointmentId", "");
+        map.put("garageId", "");
+        map.put("passedMeks", 0);
+        map.put("carType", carType.getText().toString());
+        map.put("carModel", carmodel.getText().toString());
+        map.put("carProblem", carProblem.getText().toString());
+
+        map.put("customerRating", 0);
+        map.put("customerComment", "");
+        map.put("mechanicRating", 0);
+        map.put("customerId", userId);
+        map.put("timestamp", getCurrentTime());
+        map.put("status", "Requesting");
+        map.put("lat", lat);
+        map.put("lng", lng);
+        map.put("carLocation", "");
+        map.put("mekId", "");
+        map.put("workingStatus", "");
+        db.collection("outgoing_appointments").document().set(map)
                 .addOnSuccessListener(aVoid -> Toast.makeText(MakeAppointment.this, "Request made successful",
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> {
@@ -275,8 +338,23 @@ public class MakeAppointment extends AppCompatActivity implements DatePickerDial
     }
 
     private Long getCurrentTime() {
-        Long timeStamp = System.currentTimeMillis() / 1000;
+        Long timeStamp = System.currentTimeMillis();
         return timeStamp;
     }
+
+    @Override
+    public void onPositiveButtonClicked(String[] list, int position) {
+        apptype.setText(list[position]);
+    }
+
+    @Override
+    public void onNegativeButtonClicked() {
+
+    }
+
+
+
+
+
 }
 

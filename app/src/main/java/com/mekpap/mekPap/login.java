@@ -91,7 +91,7 @@ public class login extends AppCompatActivity {
 
     public void alertDialog() {
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
-        View mView = layoutInflaterAndroid.inflate(R.layout.resetpassword, null);
+        View mView = getLayoutInflater().inflate(R.layout.resetpassword, null);
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
         alertDialogBuilderUserInput.setView(mView);
         final EditText userInputDialogEditText;

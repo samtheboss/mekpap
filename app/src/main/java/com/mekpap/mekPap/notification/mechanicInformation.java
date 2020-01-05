@@ -1,6 +1,7 @@
 package com.mekpap.mekPap.notification;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -33,12 +34,15 @@ public class mechanicInformation extends FragmentActivity implements OnMapReadyC
         email = findViewById(R.id.email);
         phone = findViewById(R.id.phone_number);
         profilepic = findViewById(R.id.profile_image);
-        String mechanicid = getIntent().getExtras().getString("mekId");
-        documentReference = db.document("Users/" + mechanicid);
+        String mechanicid = getIntent().getExtras().getString(AppConstants.MEKREQUESTID);
+        documentReference = db.document("mechanics/" + mechanicid);
         getMechaniInformation();
+
     }
 
     void getMechaniInformation() {
+        String mechanicid = getIntent().getExtras().getString("mekId");
+user.setText(mechanicid);
         documentReference.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
             //    String UsrEmail = Objects.requireNonNull(documentSnapshot.get("Email")).toString();
